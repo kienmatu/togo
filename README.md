@@ -17,9 +17,10 @@ Example: users are limited to create only 5 task only per day, if imit reached, 
 - Write unit test for `services` layer
 - Change from using `SQLite` to `Postgres` with `docker-compose`
 #### Frontend requirements
-- Login interface
-- Token management state using `Redux`
-- UI for list/create tasks
+- Implement in React with hooks (+ Typescript is a plus)
+- A login interface
+- A list/create tasks interface
+- Nice state management mechanism
 #### Optional requirements
 - Write unit test for `storages` layer
 - Split `services` layer to `use case` and `transport` layer
