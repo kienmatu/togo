@@ -16,7 +16,7 @@ Example: users are limited to create only 5 task only per day, if imit reached, 
 - Change from using `SQLite` to `Postgres` with `docker-compose`
 #### Frontend requirements
 - Login interface
-- Token management state
+- Token management state using `Redux`
 - UI for list/create tasks
 #### Optional requirements
 - Write unit test for `storages` layer
