@@ -1,3 +1,27 @@
+### Overview
+This is a simple backend for good old todo service, right now this service can handle login/list/create simple tasks.  
+To make it run:
+- `go run main.go`
+- Import Postman collection from `docs` to check example
+
+Candidates are required to implement below requirements
+### Requirements
+Right now a user can add many task as they want, we want ability to limit N task per day.
+
+Example: users are limited to create only 5 task only per day, if imit reached, return 4xx code to client and ignore the create request.
+#### Backend requirements
+- Write integration tests for this project
+- Make this code DRY
+- Write unit test for `services` layer
+- Change from using `SQLite` to `Postgres` with `docker-compose`
+#### Frontend requirements
+- Login interface
+- Token management state
+- UI for list/create tasks
+#### Optional requirements
+- Write unit test for `storages` layer
+- Split `services` layer to `use case` and `transport` layer
+
 ### DB Schema
 ```sql
 -- users definition
