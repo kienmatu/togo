@@ -1,0 +1,10 @@
+@startuml
+Client -> Server: Authentication Request
+note left: GET /login?user_id=firstUser&password=example
+Client <-- Server: Authentication Response
+note right: with JWT token
+
+Client -> Server: Create a new task
+note left: POST /tasks {"content": "example"}
+Client <-- Server : New task response
+@enduml
