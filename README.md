@@ -4,7 +4,9 @@ To make it run:
 - `go run main.go`
 - Import Postman collection from `docs` to check example
 
-Candidates are required to implement below requirements
+Candidates are invited to implement below requirements but the point is not to resolve everything in a perfect way but selective what you can do best in a limited time.  
+Thus, there is no correct-or-perfect answer, your solutions are way for us to continue the discussion and collaborating.
+ 
 ### Requirements
 Right now a user can add many task as they want, we want ability to limit N task per day.
 
