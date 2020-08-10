@@ -22,6 +22,8 @@ type ToDoService struct {
 
 func (s *ToDoService) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	log.Println(req.Method, req.URL.Path)
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
+
 	switch req.URL.Path {
 	case "/login":
 		s.getAuthToken(resp, req)
