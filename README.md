@@ -18,6 +18,7 @@ Example: users are limited to create only 5 task only per day, if imit reached, 
 - Make this code DRY
 - Write unit test for `services` layer
 - Change from using `SQLite` to `Postgres` with `docker-compose`
+- This project include many issues from code to DB strucutre, feel free to optimize them.
 #### Frontend requirements
 - A nice README on how to run, what is missing, what else you want to improve but don't have enough time
 - https://github.com/manabie-com/mana-do
