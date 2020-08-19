@@ -1,11 +1,11 @@
 ### Overview
-This is a simple backend for good old todo service, right now this service can handle login/list/create simple tasks.  
+This is a simple backend for a good old todo service, right now this service can handle login/list/create simple tasks.  
 To make it run:
 - `go run main.go`
 - Import Postman collection from `docs` to check example
 
 Candidates are invited to implement below requirements but the point is not to resolve everything in a perfect way but selective what you can do best in a limited time.  
-Thus, there is no correct-or-perfect answer, your solutions are way for us to continue the discussion and collaborating.
+Thus, there is no correct-or-perfect answer, your solutions are way for us to continue the discussion and collaboration.
  
 ### Requirements
 Right now a user can add many task as they want, we want ability to limit N task per day.
