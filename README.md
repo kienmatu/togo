@@ -1,6 +1,6 @@
 ### Requirements
 
-- Implement one single API, which accepts a todo task and records it
+- Implement one single API which accepts a todo task and records it
   - There is a maximum **limit of N tasks** that can be added **per day**.
 - Write integration (functional) tests
 - Write unit tests
