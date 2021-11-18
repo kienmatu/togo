@@ -1,58 +1,29 @@
+### Requirements
+
+- Implement one single API, which accepts a todo task and records it
+  - There is a maximum **limit of N tasks** that can be added **per day**.
+- Write integration (functional) tests
+- Write unit tests
+- Choose a suitable architecture to make your code simple, organizable, and maintainable
+- Write a concise README
+  - How to run your code locally?
+  - A sample “curl” command to call your API
+  - How to run your unit tests locally?
+  - What do you love about your solution?
+  - What else do you want us to know about however you do not have enough time to complete?
+
 ### Notes
-This is a simple backend for a todo service, right now this service can handle login/list/create simple tasks, to make it run:
-- `go run main.go`
-- Import Postman collection from docs to check example
 
-Candidates are invited to implement the below requirements but the point is **NOT to resolve everything perfectly** but selective about what you can do best in a limited time.  
-Thus, **there is no correct-or-perfect answer**, your solutions are a way for us to continue the discussion and collaboration.  
+We're using Golang at Manabie. **However**, we encourage you to use the programming language that you are most comfortable with because we want you to **shine** with all your skills and knowledge.
 
-We're using **Golang** but candidates can use any language (NodeJS/Java/PHP/Python...) **as long as**:  
-- You show us how to run **reliably** - many of us use Ubuntu, some use Mac
-- Your solution is **compatible with our REST interface** and we can use our Postman collection for verifying
+### How to submit your solution?
 
----
+- Fork this repo and show us your development progress via a PR
 
-### Functional requirement:
-Right now a user can add as many tasks as they want, we want the ability to **limit N tasks per day**.  
-For example, users are limited to create only 5 tasks only per day, if the daily limit is reached, return 4xx code to the client and ignore the create request.
+### Interesting facts about Manabie
 
-### Non-functional requirements:
-- [ ] **A nice README on how to run, what is missing, what else you want to improve but don't have enough time**
-- [ ] **Consistency is a MUST**
-- [ ] Fork this repo and show us your development progress by a PR
-- [ ] Write integration tests for this project
-- [ ] Make this code DRY
-- [ ] Write unit test for the services layer
-- [ ] Change from using SQLite to Postgres with docker-compose
-- [ ] This project includes many issues from code to DB structure, feel free to optimize them
-- [ ] Write unit test for storages layer
-- [ ] Split services layer to use case and transport layer
+- Monthly there are about 2 million lines of code changes (inserted/updated/deleted) committed into our GitHub repositories. To avoid **regression bugs**, we write different kinds of **automated tests** (unit/integration (functionality)/end2end) as parts of the definition of done of our assigned tasks.
+- We nurture the cultural values: **knowledge sharing** and **good communication**, therefore good written documents and readable, organizable, and maintainable code are in our blood when we build any features to grow our products.
+- We have **collaborative** culture at Manabie. Feel free to ask trieu@manabie.com any questions. We are very happy to answer all of them.
 
-
-#### DB Schema
-```sql
--- users definition
-
-CREATE TABLE users (
-	id TEXT NOT NULL,
-	password TEXT NOT NULL,
-	max_todo INTEGER DEFAULT 5 NOT NULL,
-	CONSTRAINT users_PK PRIMARY KEY (id)
-);
-
-INSERT INTO users (id, password, max_todo) VALUES('firstUser', 'example', 5);
-
--- tasks definition
-
-CREATE TABLE tasks (
-	id TEXT NOT NULL,
-	content TEXT NOT NULL,
-	user_id TEXT NOT NULL,
-    created_date TEXT NOT NULL,
-	CONSTRAINT tasks_PK PRIMARY KEY (id),
-	CONSTRAINT tasks_FK FOREIGN KEY (user_id) REFERENCES users(id)
-);
-```
-
-#### Sequence diagram
-![auth and create tasks request](https://github.com/manabie-com/togo/blob/master/docs/sequence.svg)
+Thank you for spending time to read and attempt our take-home assessment. We are looking forward to your submission.
