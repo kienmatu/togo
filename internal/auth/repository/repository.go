@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"kienmatu/go-todos/internal/auth"
-	"kienmatu/go-todos/models"
+	"kienmatu/go-todos/internal/models"
 
 	"gorm.io/gorm"
 )

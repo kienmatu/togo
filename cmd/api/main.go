@@ -1,24 +1,32 @@
 package main
 
 import (
-	"kienmatu/go-todos/config"
 	"log"
-	"net/http"
 
-	"github.com/labstack/echo"
+	"kienmatu/go-todos/config"
+	"kienmatu/go-todos/db"
+	"kienmatu/go-todos/internal/server"
+
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
+
+	log.Println("Starting api server")
 	// Initialize config
-	conf := config.NewConfig()
+	cfg := config.NewConfig()
+	db := db.GetPostgresInstance(cfg)
+	s := server.NewServer(cfg, db, logrus.New())
+	if err := s.Run(); err != nil {
+		log.Fatal(err)
+	}
 
-	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
-	
-	log.Println("Application is running at ", conf.Port)
+	// e := echo.New()
+	// e.GET("/", func(c echo.Context) error {
+	// 	return c.String(http.StatusOK, "Hello, World!")
+	// })
 
-	e.Logger.Fatal(e.Start(":"+conf.Port))
+	// log.Println("Application is running at ", conf.Port)
 
+	// e.Logger.Fatal(e.Start(":"+conf.Port))
 }

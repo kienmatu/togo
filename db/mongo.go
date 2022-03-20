@@ -11,7 +11,7 @@ var instance *mgo.Session
 var err error
 
 // GetInstance return copy of db session
-func GetInstance(c *config.Configuration) *mgo.Session {
+func GetMongoInstance(c *config.Configuration) *mgo.Session {
 
 	if instance == nil {
 		instance, err = mgo.Dial(c.DatabaseConnectionURL)

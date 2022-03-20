@@ -3,10 +3,11 @@ package usecase
 import (
 	"context"
 	"fmt"
-	"kienmatu/go-todos/models"
-	"kienmatu/go-todos/modules/auth"
 	"strings"
 	"time"
+
+	"kienmatu/go-todos/internal/auth"
+	"kienmatu/go-todos/internal/models"
 
 	"github.com/golang-jwt/jwt"
 	"github.com/google/uuid"
@@ -28,30 +29,34 @@ func NewAuthUseCase(
 	userRepo auth.UserRepository,
 	hashSalt string,
 	signingKey []byte,
-	tokenTTL time.Duration) *AuthUseCase {
+	tokenTTL int64) *AuthUseCase {
 	return &AuthUseCase{
 		userRepo:       userRepo,
 		hashSalt:       hashSalt,
 		signingKey:     signingKey,
-		expireDuration: time.Second * tokenTTL,
+		expireDuration: time.Second * time.Duration(tokenTTL),
 	}
 }
 
-func (a *AuthUseCase) SignUp(ctx context.Context, username, password string, limit int) error {
+func (a *AuthUseCase) SignUp(ctx context.Context, username, password string, limit int) (*models.User, error) {
 	fmtusername := strings.ToLower(username)
 	euser, _ := a.userRepo.GetUserByUsername(ctx, fmtusername)
 
 	if euser != nil {
-		return auth.ErrUserExisted
+		return nil, auth.ErrUserExisted
 	}
 	user := &models.User{
-		Id: uuid.New(),
+		Id:       uuid.New().String(),
 		Username: fmtusername,
 		Password: password,
-		Limit: limit,
+		Limit:    limit,
 	}
 	user.HashPassword()
-	return a.userRepo.CreateUser(ctx, user)
+	err := a.userRepo.CreateUser(ctx, user)
+	if err != nil {
+		return nil, err
+	}
+	return a.userRepo.GetUserByUsername(ctx, username)
 }
 
 func (a *AuthUseCase) SignIn(ctx context.Context, username, password string) (string, error) {

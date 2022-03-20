@@ -2,7 +2,7 @@ package auth
 
 import (
 	"context"
-	"kienmatu/go-todos/models"
+	"kienmatu/go-todos/internal/models"
 )
 
 const CtxUserKey = "user"

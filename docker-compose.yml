@@ -1,0 +1,12 @@
+version: "3"
+services:
+  postgresql:
+    image: clkao/postgres-plv8
+    container_name: postgres_container
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-postgres}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password1}
+    ports:
+      - "5432:5432"
+    restart: unless-stopped

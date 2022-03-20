@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["godotenv"]
+  "cSpell.words": ["godotenv"],
+  "editor.formatOnSave": true
 }
