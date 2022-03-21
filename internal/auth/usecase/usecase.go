@@ -19,7 +19,7 @@ type AuthClaims struct {
 	UserId   string `json:"userId"`
 }
 
-type AuthUseCase struct {
+type authUseCase struct {
 	userRepo       auth.UserRepository
 	hashSalt       string
 	signingKey     []byte
@@ -30,8 +30,8 @@ func NewAuthUseCase(
 	userRepo auth.UserRepository,
 	hashSalt string,
 	signingKey []byte,
-	tokenTTL int64) *AuthUseCase {
-	return &AuthUseCase{
+	tokenTTL int64) auth.UseCase {
+	return &authUseCase{
 		userRepo:       userRepo,
 		hashSalt:       hashSalt,
 		signingKey:     signingKey,
@@ -39,7 +39,7 @@ func NewAuthUseCase(
 	}
 }
 
-func (a *AuthUseCase) SignUp(ctx context.Context, username, password string, limit int) (*models.User, error) {
+func (a *authUseCase) SignUp(ctx context.Context, username, password string, limit int) (*models.User, error) {
 	fmtusername := strings.ToLower(username)
 	euser, _ := a.userRepo.GetUserByUsername(ctx, fmtusername)
 
@@ -60,7 +60,7 @@ func (a *AuthUseCase) SignUp(ctx context.Context, username, password string, lim
 	return a.userRepo.GetUserByUsername(ctx, username)
 }
 
-func (a *AuthUseCase) SignIn(ctx context.Context, username, password string) (string, error) {
+func (a *authUseCase) SignIn(ctx context.Context, username, password string) (string, error) {
 	user, _ := a.userRepo.GetUserByUsername(ctx, username)
 	if user == nil {
 		return "", auth.ErrUserNotFound
@@ -85,7 +85,7 @@ func (a *AuthUseCase) SignIn(ctx context.Context, username, password string) (st
 	return token.SignedString(a.signingKey)
 }
 
-func (a *AuthUseCase) ParseToken(ctx context.Context, accessToken string) (string, error) {
+func (a *authUseCase) ParseToken(ctx context.Context, accessToken string) (string, error) {
 	token, err := jwt.ParseWithClaims(accessToken, &AuthClaims{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
