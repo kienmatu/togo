@@ -17,16 +17,17 @@ func NewTodoRepository(db *gorm.DB) todos.TodoRepository {
 }
 
 func (tr *todoRepository) CreateTodo(ctx context.Context, todo *models.Todo) error {
-	result := tr.db.Create(&todo)
+	result := tr.db.WithContext(ctx).Create(&todo)
 
 	if result.Error != nil {
 		return result.Error
 	}
 	return nil
 }
+
 func (tr *todoRepository) GetTodosByUserId(ctx context.Context, userId string) ([]*models.Todo, error) {
 	var todos []*models.Todo
-	err := tr.db.Where(&models.Todo{CreatedBy: userId}).Find(&todos).Error
+	err := tr.db.WithContext(ctx).Where(&models.Todo{CreatedBy: userId}).Find(&todos).Error
 
 	if err != nil {
 		return nil, err
@@ -37,7 +38,7 @@ func (tr *todoRepository) GetTodosByUserId(ctx context.Context, userId string) (
 func (tr *todoRepository) GetAllTodos(ctx context.Context) ([]*models.Todo, error) {
 	var todos []*models.Todo
 	// can add offset later
-	err := tr.db.Limit(200).Find(&todos).Error
+	err := tr.db.WithContext(ctx).Limit(200).Find(&todos).Error
 
 	if err != nil {
 		return nil, err
@@ -47,7 +48,7 @@ func (tr *todoRepository) GetAllTodos(ctx context.Context) ([]*models.Todo, erro
 
 func (tr *todoRepository) CountTodo(ctx context.Context, userId string) (int, error) {
 	var count int
-	err := tr.db.Raw(`SELECT 
+	err := tr.db.WithContext(ctx).Raw(`SELECT 
 			COUNT(*)
 			FROM "todos"
 			WHERE todos.created_by = ?

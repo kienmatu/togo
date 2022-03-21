@@ -17,7 +17,7 @@ func NewUserRepository(db *gorm.DB) auth.UserRepository {
 }
 
 func (ur *userRepository) CreateUser(ctx context.Context, user *models.User) error {
-	result := ur.db.Create(&user)
+	result := ur.db.WithContext(ctx).Create(&user)
 
 	if result.Error != nil {
 		return result.Error
@@ -27,7 +27,7 @@ func (ur *userRepository) CreateUser(ctx context.Context, user *models.User) err
 
 func (ur *userRepository) GetUserByUsername(ctx context.Context, username string) (*models.User, error) {
 	var user models.User
-	err := ur.db.Where(&models.User{
+	err := ur.db.WithContext(ctx).Where(&models.User{
 		Username: username,
 	}).First(&user).Error
 
@@ -40,7 +40,7 @@ func (ur *userRepository) GetUserByUsername(ctx context.Context, username string
 
 func (ur *userRepository) GetUserById(ctx context.Context, userId string) (*models.User, error) {
 	var user models.User
-	err := ur.db.Where(&models.User{
+	err := ur.db.WithContext(ctx).Where(&models.User{
 		Id: userId,
 	}).First(&user).Error
 
