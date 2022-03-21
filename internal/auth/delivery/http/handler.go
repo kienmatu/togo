@@ -7,15 +7,11 @@ import (
 	"kienmatu/go-todos/internal/auth/presenter"
 	"kienmatu/go-todos/utils"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 type authHandler struct {
 	useCase auth.UseCase
-}
-
-func (h *authHandler) Index(rw http.ResponseWriter, r *http.Request) {
-	utils.Response(rw, "AuthHandler is running!")
 }
 
 func NewAuthHandler(useCase auth.UseCase) auth.Handler {
@@ -50,7 +46,9 @@ func (h *authHandler) SignIn() echo.HandlerFunc {
 			if err == auth.ErrUserNotFound {
 				return echo.NewHTTPError(http.StatusUnauthorized, err.Error())
 			}
-
+			if err == auth.ErrWrongPassword {
+				return echo.NewHTTPError(http.StatusUnauthorized, err.Error())
+			}
 			return echo.NewHTTPError(http.StatusInternalServerError)
 		}
 		return c.JSON(http.StatusOK, presenter.LogInResponse{Token: token})

@@ -28,7 +28,6 @@ func NewConfig(files ...string) *Configuration {
 	}
 
 	cfg := Configuration{}
-
 	// Parse env to configuration
 	err = env.Parse(&cfg)
 	if err != nil {

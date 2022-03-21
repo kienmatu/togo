@@ -1,6 +1,6 @@
 package utils
 
-import "github.com/labstack/echo"
+import "github.com/labstack/echo/v4"
 
 // Read request body and validate
 func ReadRequest(ctx echo.Context, request interface{}) error {

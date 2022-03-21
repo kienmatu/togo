@@ -3,7 +3,7 @@ package http
 import (
 	"kienmatu/go-todos/internal/auth"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 // Map auth routes

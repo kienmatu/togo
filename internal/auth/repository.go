@@ -5,7 +5,7 @@ import (
 	"kienmatu/go-todos/internal/models"
 )
 
-const CtxUserKey = "user"
+const CtxUserKey = "userId"
 
 type UserRepository interface {
 	CreateUser(ctx context.Context, user *models.User) error

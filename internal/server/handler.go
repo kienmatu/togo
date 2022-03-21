@@ -6,8 +6,8 @@ import (
 
 	authHttp "kienmatu/go-todos/internal/auth/delivery/http"
 
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func (s *Server) MapHandlers(e *echo.Echo) error {

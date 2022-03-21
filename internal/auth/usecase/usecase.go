@@ -15,7 +15,8 @@ import (
 
 type AuthClaims struct {
 	jwt.StandardClaims
-	User *models.User `json:"user"`
+	Username string `json:"username"`
+	UserId   string `json:"userId"`
 }
 
 type AuthUseCase struct {
@@ -61,7 +62,7 @@ func (a *AuthUseCase) SignUp(ctx context.Context, username, password string, lim
 
 func (a *AuthUseCase) SignIn(ctx context.Context, username, password string) (string, error) {
 	user, _ := a.userRepo.GetUserByUsername(ctx, username)
-	if user != nil {
+	if user == nil {
 		return "", auth.ErrUserNotFound
 	}
 
@@ -70,8 +71,11 @@ func (a *AuthUseCase) SignIn(ctx context.Context, username, password string) (st
 	}
 
 	claims := AuthClaims{
-		User: user,
+		Username: user.Username,
+		UserId:   user.Id,
 		StandardClaims: jwt.StandardClaims{
+			IssuedAt:  time.Now().Unix(),
+			Issuer:    "go-todos",
 			ExpiresAt: time.Now().Add(a.expireDuration).Unix(),
 		},
 	}
@@ -81,7 +85,7 @@ func (a *AuthUseCase) SignIn(ctx context.Context, username, password string) (st
 	return token.SignedString(a.signingKey)
 }
 
-func (a *AuthUseCase) ParseToken(ctx context.Context, accessToken string) (*models.User, error) {
+func (a *AuthUseCase) ParseToken(ctx context.Context, accessToken string) (string, error) {
 	token, err := jwt.ParseWithClaims(accessToken, &AuthClaims{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
@@ -90,12 +94,12 @@ func (a *AuthUseCase) ParseToken(ctx context.Context, accessToken string) (*mode
 	})
 
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	if claims, ok := token.Claims.(*AuthClaims); ok && token.Valid {
-		return claims.User, nil
+		return claims.UserId, nil
 	}
 
-	return nil, auth.ErrInvalidAccessToken
+	return "", auth.ErrInvalidAccessToken
 }

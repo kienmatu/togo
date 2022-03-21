@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
@@ -32,10 +32,12 @@ func (s *Server) Run() error {
 		ReadTimeout:  15 * time.Second,
 	}
 
-	s.logger.Logf(logrus.InfoLevel, "Server is listening on PORT: %s", s.cfg.Port)
-	if err := s.echo.StartServer(server); err != nil {
-		s.logger.Fatalln("Error starting Server: ", err)
-	}
+	go func() {
+		s.logger.Logf(logrus.InfoLevel, "Server is listening on PORT: %s", s.cfg.Port)
+		if err := s.echo.StartServer(server); err != nil {
+			s.logger.Fatalln("Error starting Server: ", err)
+		}
+	}()
 
 	if err := s.MapHandlers(s.echo); err != nil {
 		return err

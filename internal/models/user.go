@@ -18,7 +18,11 @@ func (u *User) HashPassword() error {
 	return nil
 }
 
-func (u *User) ComparePassword(password string) (bool) {
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	return string(hashedPassword) == u.Password 
+func (u *User) ComparePassword(password string) bool {
+	// hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	// return string(hashedPassword) == u.Password
+	if err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password)); err != nil {
+		return false
+	}
+	return true
 }

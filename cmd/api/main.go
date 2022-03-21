@@ -15,7 +15,7 @@ func main() {
 	log.Println("Starting api server")
 	// Initialize config
 	cfg := config.NewConfig()
-	db := db.GetPostgresInstance(cfg)
+	db := db.GetPostgresInstance(cfg, false)
 	s := server.NewServer(cfg, db, logrus.New())
 	if err := s.Run(); err != nil {
 		log.Fatal(err)
