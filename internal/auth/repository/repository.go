@@ -9,7 +9,7 @@ import (
 )
 
 type userRepository struct {
-	db     *gorm.DB
+	db *gorm.DB
 }
 
 func NewUserRepository(db *gorm.DB) auth.UserRepository {
@@ -18,19 +18,31 @@ func NewUserRepository(db *gorm.DB) auth.UserRepository {
 
 func (ur *userRepository) CreateUser(ctx context.Context, user *models.User) error {
 	result := ur.db.Create(&user)
-	
-	if(result.Error != nil){
+
+	if result.Error != nil {
 		return result.Error
 	}
 	return nil
 }
 
-
 func (ur *userRepository) GetUserByUsername(ctx context.Context, username string) (*models.User, error) {
 	var user models.User
 	err := ur.db.Where(&models.User{
 		Username: username,
-		}).First(&user).Error
+	}).First(&user).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+func (ur *userRepository) GetUserById(ctx context.Context, userId string) (*models.User, error) {
+	var user models.User
+	err := ur.db.Where(&models.User{
+		Id: userId,
+	}).First(&user).Error
 
 	if err != nil {
 		return nil, err

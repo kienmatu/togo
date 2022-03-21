@@ -2,6 +2,8 @@ package usecase
 
 import (
 	"context"
+	"errors"
+	"kienmatu/go-todos/internal/auth"
 	"kienmatu/go-todos/internal/models"
 	"kienmatu/go-todos/internal/todos"
 	"time"
@@ -11,11 +13,13 @@ import (
 
 type todoUsecase struct {
 	todoRepo todos.TodoRepository
+	userRepo auth.UserRepository
 }
 
-func NewTodoUseCase(todoRepo todos.TodoRepository) todos.UseCase {
+func NewTodoUseCase(todoRepo todos.TodoRepository, userRepo auth.UserRepository) todos.UseCase {
 	return &todoUsecase{
 		todoRepo: todoRepo,
+		userRepo: userRepo,
 	}
 }
 
@@ -26,7 +30,19 @@ func (tu todoUsecase) CreateTodo(ctx context.Context, userId string, content str
 		CreatedAt: time.Now(),
 		CreatedBy: userId,
 	}
-	return tu.todoRepo.CreateTodo(ctx, todo)
+	count, err := tu.todoRepo.CountTodo(ctx, userId)
+	if err != nil {
+		return err
+	}
+	user, err := tu.userRepo.GetUserById(ctx, userId)
+	if err != nil {
+		return err
+	}
+	if user.Limit > count {
+		return tu.todoRepo.CreateTodo(ctx, todo)
+	} else {
+		return errors.New("limit exceeded")
+	}
 }
 
 func (tu todoUsecase) GetTodosByUserId(ctx context.Context, userId string) ([]*models.Todo, error) {

@@ -22,7 +22,7 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 
 	//usecase
 	authUC := authUsecase.NewAuthUseCase(userRepo, s.cfg.HashSalt, []byte(s.cfg.SigningKey), s.cfg.TokenTTL)
-	todoUC := todoUsecase.NewTodoUseCase(todoRepo)
+	todoUC := todoUsecase.NewTodoUseCase(todoRepo, userRepo)
 
 	//handler
 	authHandler := authHttp.NewAuthHandler(authUC)

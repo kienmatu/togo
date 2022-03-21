@@ -46,10 +46,15 @@ func (tr *todoRepository) GetAllTodos(ctx context.Context) ([]*models.Todo, erro
 }
 
 func (tr *todoRepository) CountTodo(ctx context.Context, userId string) (int, error) {
-	// tr.db.Raw(`SELECT
-	// 		DATE_TRUNC('day', "createdAt") AS "alias1",
-	// 		COUNT("createdAt") AS "alias2"
-	// 		FROM "todos"
-	// 		GROUP BY DATE_TRUNC('day', "createdAt");`)
-	return 1, nil
+	var count int
+	err := tr.db.Raw(`SELECT 
+			COUNT(*)
+			FROM "todos"
+			WHERE todos.created_by = ?
+			AND DATE_TRUNC('day', "created_at") = CURRENT_DATE
+			GROUP BY DATE_TRUNC('day', "created_at")`, userId).Scan(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
 }
