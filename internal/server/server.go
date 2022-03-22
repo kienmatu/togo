@@ -19,10 +19,11 @@ type Server struct {
 	cfg    *config.Configuration
 	db     *gorm.DB
 	logger *logrus.Logger
+	ready  chan bool
 }
 
-func NewServer(cfg *config.Configuration, db *gorm.DB, logger *logrus.Logger) *Server {
-	return &Server{echo: echo.New(), cfg: cfg, db: db, logger: logger}
+func NewServer(cfg *config.Configuration, db *gorm.DB, logger *logrus.Logger, ready chan bool) *Server {
+	return &Server{echo: echo.New(), cfg: cfg, db: db, logger: logger, ready: ready}
 }
 
 func (s *Server) Run() error {
@@ -41,6 +42,10 @@ func (s *Server) Run() error {
 
 	if err := s.MapHandlers(s.echo); err != nil {
 		return err
+	}
+
+	if s.ready != nil {
+		s.ready <- true
 	}
 
 	quit := make(chan os.Signal, 1)

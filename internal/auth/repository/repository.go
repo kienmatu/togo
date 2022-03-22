@@ -4,6 +4,7 @@ import (
 	"context"
 	"kienmatu/go-todos/internal/auth"
 	"kienmatu/go-todos/internal/models"
+	"strings"
 
 	"gorm.io/gorm"
 )
@@ -28,7 +29,7 @@ func (ur *userRepository) CreateUser(ctx context.Context, user *models.User) err
 func (ur *userRepository) GetUserByUsername(ctx context.Context, username string) (*models.User, error) {
 	var user models.User
 	err := ur.db.WithContext(ctx).Where(&models.User{
-		Username: username,
+		Username: strings.ToLower(username),
 	}).First(&user).Error
 
 	if err != nil {

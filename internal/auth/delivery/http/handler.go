@@ -31,7 +31,7 @@ func (h *authHandler) SignUp() echo.HandlerFunc {
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 		}
-		return c.JSON(http.StatusOK, presenter.SignUpResponse{Username: user.Username, Limit: user.Limit})
+		return c.JSON(http.StatusCreated, presenter.SignUpResponse{Username: user.Username, Limit: user.Limit})
 	}
 }
 

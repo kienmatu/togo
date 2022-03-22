@@ -16,7 +16,7 @@ func main() {
 	// Initialize config
 	cfg := config.NewConfig()
 	db := db.GetPostgresInstance(cfg, true)
-	s := server.NewServer(cfg, db, logrus.New())
+	s := server.NewServer(cfg, db, logrus.New(), nil)
 	if err := s.Run(); err != nil {
 		log.Fatal(err)
 	}
