@@ -11,7 +11,8 @@
 ### How to run the code locally
 
 Clone the project then:
-Update .env file
+
+##### Update .env file
 
 ```txt
 PORT=8080
@@ -26,19 +27,22 @@ CONNECTION_URL=host=localhost user=postgres password=password1 dbname=todos port
 go run cmd/api/main.go
 ```
 
-or by Docker
-Update .env file
+##### or by Docker
+
+Update .env file (change host to postgresql)
 
 ```txt
 #...
 CONNECTION_URL=host=postgresql user=postgres password=password1 dbname=todos port=5432
 ```
 
+RUN COMMAND:
+
 ```bash
 docker-compose up -d
 ```
 
-Then open postman or curl:
+### Then open postman or bash use curl:
 
 #### Register:
 
@@ -78,14 +82,18 @@ curl --location --request POST 'http://localhost:8080/api/v1/todos/' \
 
 #### Get all todos:
 
+Public for all users
+
 ```bash
 curl --location --request GET 'http://localhost:8080/api/v1/todos/'
 ```
 
-#### Get user todo:
+#### Get user todos:
+
+Get any user's todos with their id
 
 ```bash
-curl --location --request GET 'http://localhost:8080/api/v1/todos/YOUR_USER_ID' \
+curl --location --request GET 'http://localhost:8080/api/v1/todos/A_USER_ID' \
 --header 'Authorization: Bearer YOUR_TOKEN_HERE'
 ```
 

@@ -16,10 +16,14 @@ func GetPostgresInstance(cfg *config.Configuration, migrate bool) *gorm.DB {
 
 	if err != nil {
 		fmt.Println(err)
+		panic(err)
 	}
 
 	if migrate {
 		db.AutoMigrate(&models.User{}, &models.Todo{})
+		// if err != nil {
+		// 	panic("Error when run migrations")
+		// }
 	}
 	return db
 }

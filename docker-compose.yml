@@ -9,6 +9,7 @@ services:
       - "8080:8080"
     depends_on:
       - postgresql
+    restart: on-failure
   postgresql:
     image: clkao/postgres-plv8
     container_name: postgres_container_go
