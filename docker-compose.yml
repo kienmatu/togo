@@ -1,0 +1,22 @@
+version: "3"
+services:
+  server:
+    image: kien-go-todos
+    container_name: "kien-go-todos"
+    build: ./
+    env_file: .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgresql
+    restart: on-failure
+  postgresql:
+    image: clkao/postgres-plv8
+    container_name: postgres_container_go
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-todos}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password1}
+    ports:
+      - "5432:5432"
+    restart: unless-stopped

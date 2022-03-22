@@ -1,30 +1,122 @@
-### Requirements
+## GOLANG TODOS APPLICATION
 
-- Implement one single API which accepts a todo task and records it
-  - There is a maximum **limit of N tasks per user** that can be added **per day**.
-  - Different users can have **different** maximum daily limit.
-- Write integration (functional) tests
-- Write unit tests
-- Choose a suitable architecture to make your code simple, organizable, and maintainable
-- Write a concise README
-  - How to run your code locally?
-  - A sample “curl” command to call your API
-  - How to run your unit tests locally?
-  - What do you love about your solution?
-  - What else do you want us to know about however you do not have enough time to complete?
+### Technical stuff
 
-### Notes
+- Architecture: Clean architecture
+- Framework: Echo
+- ORM: Gorm
+- DB: Postgres
+- Deployment: Docker
 
-- We're using Golang at Manabie. **However**, we encourage you to use the programming language that you are most comfortable with because we want you to **shine** with all your skills and knowledge.
+### How to run the code locally
 
-### How to submit your solution?
+Clone the project then:
 
-- Fork this repo and show us your development progress via a PR
+##### Update .env file
 
-### Interesting facts about Manabie
+```txt
+PORT=8080
+JWT_SECRET=B5bJHoI8aVLjAAeV
+SIGNING_KEY=ABC
+HASH_SALT=SJSHDFDS
+TOKEN_TTL=86400
+CONNECTION_URL=host=localhost user=postgres password=password1 dbname=todos port=5432
+```
 
-- Monthly there are about 2 million lines of code changes (inserted/updated/deleted) committed into our GitHub repositories. To avoid **regression bugs**, we write different kinds of **automated tests** (unit/integration (functionality)/end2end) as parts of the definition of done of our assigned tasks.
-- We nurture the cultural values: **knowledge sharing** and **good communication**, therefore good written documents and readable, organizable, and maintainable code are in our blood when we build any features to grow our products.
-- We have **collaborative** culture at Manabie. Feel free to ask trieu@manabie.com any questions. We are very happy to answer all of them.
+```bash
+go run cmd/api/main.go
+```
 
-Thank you for spending time to read and attempt our take-home assessment. We are looking forward to your submission.
+##### or by Docker
+
+Update .env file (change host to postgresql)
+
+```txt
+#...
+CONNECTION_URL=host=postgresql user=postgres password=password1 dbname=todos port=5432
+```
+
+RUN COMMAND:
+
+```bash
+docker-compose up -d
+```
+
+### Then open postman or bash use curl:
+
+#### Register:
+
+```bash
+curl --location --request POST 'http://localhost:8080/api/v1/auth/register' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "kiendinh",
+    "password": "abc123",
+    "limit": 2
+}'
+```
+
+#### Login:
+
+```bash
+curl --location --request POST 'http://localhost:8080/api/v1/auth/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "kiendinh",
+    "password": "abc123"
+}'
+```
+
+Take the token from login then.
+
+#### Add todo:
+
+```bash
+curl --location --request POST 'http://localhost:8080/api/v1/todos/' \
+--header 'Authorization: Bearer YOUR_TOKEN_HERE' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "content": "TEST TO DO 2x"
+}'
+```
+
+#### Get all todos:
+
+Public for all users
+
+```bash
+curl --location --request GET 'http://localhost:8080/api/v1/todos/'
+```
+
+#### Get user todos:
+
+Get any user's todos with their id
+
+```bash
+curl --location --request GET 'http://localhost:8080/api/v1/todos/A_USER_ID' \
+--header 'Authorization: Bearer YOUR_TOKEN_HERE'
+```
+
+### TESTS
+
+I just implemented some necessary test samples, we can add tests of handlers, usecases and another endpoints ...
+
+#### UNIT TEST
+
+Command:
+
+```bash
+go test ./...
+```
+
+#### INTEGRATION TEST
+
+Command:
+
+```bash
+go test -v ./integration-tests
+```
+
+### Conclusion
+
+First time I created a new microservice with Go from scratch, It gave me a challenge but I did it, tried to remove the old mindset in another architecture then go to clean architecture. I love it :heart: :heart: .
