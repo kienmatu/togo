@@ -1,9 +1,11 @@
 package integrations
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"kienmatu/go-todos/config"
+	"kienmatu/go-todos/internal/auth/presenter"
 	"kienmatu/go-todos/internal/server"
 	"kienmatu/go-todos/utils"
 	"net/http"
@@ -89,6 +91,16 @@ func (s *e2eTestSuite) Test_EndToEnd_Register() {
 	byteBody, err := ioutil.ReadAll(response.Body)
 	s.NoError(err)
 
-	s.Equal(`{"username":"`+strings.ToLower(username)+`","limit":10}`, strings.Trim(string(byteBody), "\n"))
+	expectedResp := `{"username":"` + strings.ToLower(username) + `","limit":10}`
+	var expectedUser = presenter.SignUpResponse{}
+	err = json.Unmarshal([]byte(expectedResp), &expectedUser)
+	s.NoError(err)
+
+	var actualUser = presenter.SignUpResponse{}
+	err = json.Unmarshal([]byte(strings.Trim(string(byteBody), "\n")), &actualUser)
+	s.NoError(err)
+
+	s.Equal(actualUser.Username, expectedUser.Username)
+	s.Equal(actualUser.Limit, expectedUser.Limit)
 	response.Body.Close()
 }

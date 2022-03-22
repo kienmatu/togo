@@ -7,6 +7,7 @@ type SignUpInput struct {
 }
 
 type SignUpResponse struct {
+	Id       string `json:"id"`
 	Username string `json:"username"`
 	Limit    int    `json:"limit"`
 }
