@@ -8,6 +8,12 @@
 - DB: Postgres
 - Deployment: Docker
 
+### Overview
+
+- Support JWT
+- Limit todos per user in a day
+- Unit tests & integration test
+
 ### How to run the code locally
 
 Clone the project then:
