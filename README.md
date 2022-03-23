@@ -14,6 +14,12 @@
 - Limit todos per user in a day
 - Unit tests & integration test
 
+### What next ?
+
+- Add role/permission based validation
+- Add missing tests
+- Implement your new features
+
 ### How to run the code locally
 
 Clone the project then:

@@ -31,6 +31,7 @@ func (th *todoHandler) GetAll() echo.HandlerFunc {
 	}
 }
 
+// Need to implement the permission before getting todos of another
 func (th *todoHandler) GetUserTodos() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		rawId := c.Param(auth.CtxUserKey)
