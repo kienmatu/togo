@@ -2,7 +2,7 @@ package server
 
 import (
 	"context"
-	"kienmatu/go-todos/config"
+	"dangquang9a/go-location/config"
 	"net/http"
 	"os"
 	"os/signal"

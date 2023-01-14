@@ -1,12 +1,12 @@
 package http
 
 import (
+	"dangquang9a/go-location/internal/auth"
+	"dangquang9a/go-location/internal/models"
+	"dangquang9a/go-location/internal/todos"
+	"dangquang9a/go-location/internal/todos/presenter"
+	"dangquang9a/go-location/utils"
 	"fmt"
-	"kienmatu/go-todos/internal/auth"
-	"kienmatu/go-todos/internal/models"
-	"kienmatu/go-todos/internal/todos"
-	"kienmatu/go-todos/internal/todos/presenter"
-	"kienmatu/go-todos/utils"
 	"net/http"
 
 	"github.com/google/uuid"

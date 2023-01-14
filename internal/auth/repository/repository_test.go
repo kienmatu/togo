@@ -2,9 +2,9 @@ package repository
 
 import (
 	"context"
+	"dangquang9a/go-location/internal/auth"
+	"dangquang9a/go-location/internal/models"
 	"database/sql"
-	"kienmatu/go-todos/internal/auth"
-	"kienmatu/go-todos/internal/models"
 	"regexp"
 	"testing"
 

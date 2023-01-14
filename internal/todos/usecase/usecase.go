@@ -2,10 +2,10 @@ package usecase
 
 import (
 	"context"
+	"dangquang9a/go-location/internal/auth"
+	"dangquang9a/go-location/internal/models"
+	"dangquang9a/go-location/internal/todos"
 	"errors"
-	"kienmatu/go-todos/internal/auth"
-	"kienmatu/go-todos/internal/models"
-	"kienmatu/go-todos/internal/todos"
 	"time"
 
 	"github.com/google/uuid"

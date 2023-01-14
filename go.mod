@@ -1,4 +1,4 @@
-module kienmatu/go-todos
+module dangquang9a/go-location
 
 go 1.17
 

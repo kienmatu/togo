@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"kienmatu/go-todos/internal/auth"
+	"dangquang9a/go-location/internal/auth"
 )
 
 type MiddlewareManager struct {

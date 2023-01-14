@@ -2,9 +2,9 @@ package repository
 
 import (
 	"context"
+	"dangquang9a/go-location/internal/models"
+	"dangquang9a/go-location/internal/todos"
 	"database/sql"
-	"kienmatu/go-todos/internal/models"
-	"kienmatu/go-todos/internal/todos"
 	"regexp"
 	"testing"
 	"time"

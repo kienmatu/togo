@@ -11,12 +11,12 @@ services:
       - postgresql
     restart: on-failure
   postgresql:
-    image: clkao/postgres-plv8
+    image: postgres:13
     container_name: postgres_container_go
     environment:
-      - POSTGRES_DB=${POSTGRES_DB:-todos}
-      - POSTGRES_USER=${POSTGRES_USER:-postgres}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password1}
+      - POSTGRES_DB=${POSTGRES_DB:-location}
+      - POSTGRES_USER=${POSTGRES_USER:-merlin}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-@merlin123}
     ports:
       - "5432:5432"
     restart: unless-stopped

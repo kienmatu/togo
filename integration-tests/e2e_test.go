@@ -1,13 +1,13 @@
 package integrations
 
 import (
+	"dangquang9a/go-location/config"
+	"dangquang9a/go-location/internal/auth/presenter"
+	"dangquang9a/go-location/internal/server"
+	"dangquang9a/go-location/utils"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"kienmatu/go-todos/config"
-	"kienmatu/go-todos/internal/auth/presenter"
-	"kienmatu/go-todos/internal/server"
-	"kienmatu/go-todos/utils"
 	"net/http"
 	"os"
 	"strings"

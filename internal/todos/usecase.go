@@ -2,7 +2,7 @@ package todos
 
 import (
 	"context"
-	"kienmatu/go-todos/internal/models"
+	"dangquang9a/go-location/internal/models"
 )
 
 type UseCase interface {

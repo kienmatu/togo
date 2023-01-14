@@ -1,14 +1,14 @@
 package server
 
 import (
-	authRepository "kienmatu/go-todos/internal/auth/repository"
-	authUsecase "kienmatu/go-todos/internal/auth/usecase"
-	"kienmatu/go-todos/internal/middlewares"
-	todoRepository "kienmatu/go-todos/internal/todos/repository"
-	todoUsecase "kienmatu/go-todos/internal/todos/usecase"
+	authRepository "dangquang9a/go-location/internal/auth/repository"
+	authUsecase "dangquang9a/go-location/internal/auth/usecase"
+	"dangquang9a/go-location/internal/middlewares"
+	todoRepository "dangquang9a/go-location/internal/todos/repository"
+	todoUsecase "dangquang9a/go-location/internal/todos/usecase"
 
-	authHttp "kienmatu/go-todos/internal/auth/delivery/http"
-	todoHttp "kienmatu/go-todos/internal/todos/delivery/http"
+	authHttp "dangquang9a/go-location/internal/auth/delivery/http"
+	todoHttp "dangquang9a/go-location/internal/todos/delivery/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

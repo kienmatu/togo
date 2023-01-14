@@ -1,7 +1,7 @@
 package http
 
 import (
-	"kienmatu/go-todos/internal/auth"
+	"dangquang9a/go-location/internal/auth"
 
 	"github.com/labstack/echo/v4"
 )

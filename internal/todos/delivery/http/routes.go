@@ -1,8 +1,8 @@
 package http
 
 import (
-	"kienmatu/go-todos/internal/middlewares"
-	"kienmatu/go-todos/internal/todos"
+	"dangquang9a/go-location/internal/middlewares"
+	"dangquang9a/go-location/internal/todos"
 
 	"github.com/labstack/echo/v4"
 )

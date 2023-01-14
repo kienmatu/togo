@@ -2,8 +2,8 @@ package repository
 
 import (
 	"context"
-	"kienmatu/go-todos/internal/auth"
-	"kienmatu/go-todos/internal/models"
+	"dangquang9a/go-location/internal/auth"
+	"dangquang9a/go-location/internal/models"
 	"strings"
 
 	"gorm.io/gorm"
