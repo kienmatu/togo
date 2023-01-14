@@ -5,7 +5,6 @@ import (
 	"dangquang9a/go-location/internal/auth"
 	"dangquang9a/go-location/internal/models"
 	"dangquang9a/go-location/internal/todos"
-	"errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -24,28 +23,18 @@ func NewTodoUseCase(todoRepo todos.TodoRepository, userRepo auth.UserRepository)
 }
 
 func (tu todoUsecase) CreateTodo(ctx context.Context, userId string, content string) error {
-	todo := &models.Todo{
+	todo := &models.Location{
 		Id:        uuid.New().String(),
-		Content:   content,
+		Name:      content,
 		CreatedAt: time.Now(),
 		CreatedBy: userId,
 	}
-	count, err := tu.todoRepo.CountTodo(ctx, userId)
-	if err != nil {
-		return err
-	}
-	user, err := tu.userRepo.GetUserById(ctx, userId)
-	if err != nil {
-		return err
-	}
-	if user.Limit > count {
-		return tu.todoRepo.CreateTodo(ctx, todo)
-	} else {
-		return errors.New("limit exceeded")
-	}
+
+	return tu.todoRepo.CreateTodo(ctx, todo)
+
 }
 
-func (tu todoUsecase) GetTodosByUserId(ctx context.Context, userId string) ([]*models.Todo, error) {
+func (tu todoUsecase) GetTodosByUserId(ctx context.Context, userId string) ([]*models.Location, error) {
 	todos, err := tu.todoRepo.GetTodosByUserId(ctx, userId)
 
 	if err != nil {
@@ -54,7 +43,7 @@ func (tu todoUsecase) GetTodosByUserId(ctx context.Context, userId string) ([]*m
 	return todos, nil
 }
 
-func (tu todoUsecase) GetAllTodos(ctx context.Context) ([]*models.Todo, error) {
+func (tu todoUsecase) GetAllTodos(ctx context.Context) ([]*models.Location, error) {
 	todos, err := tu.todoRepo.GetAllTodos(ctx)
 
 	if err != nil {

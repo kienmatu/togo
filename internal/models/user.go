@@ -1,12 +1,20 @@
 package models
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"time"
+
+	"golang.org/x/crypto/bcrypt"
+)
 
 type User struct {
-	Id       string `gorm:"primary_key"`
-	Username string
-	Password string
-	Limit    int
+	Id        string `gorm:"primary_key"`
+	Username  string
+	FirstName string
+	LastName  string
+	Email     string
+	Password  string
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func (u *User) HashPassword() error {

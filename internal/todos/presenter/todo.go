@@ -10,5 +10,7 @@ type TodoResponse struct {
 }
 
 type TodoRequest struct {
-	Content string
+	Latitude   float64
+	Longtitude float64
+	Note       string
 }

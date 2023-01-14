@@ -36,7 +36,7 @@ func (s *e2eTestSuite) SetupSuite() {
 		Port:                  "8081",
 		SigningKey:            "AA",
 		HashSalt:              "AAA",
-		DatabaseConnectionURL: "host=localhost user=postgres password=password1 dbname=todos port=5432",
+		DatabaseConnectionURL: "host=localhost user=merlin password=@merlin123 dbname=location port=5432",
 		TokenTTL:              86400,
 		JwtSecret:             "abcaa",
 	}
@@ -77,7 +77,7 @@ func (s *e2eTestSuite) Test_EndToEnd_Register() {
 	username := utils.RandString(10)
 	pwd := utils.RandString(8)
 
-	reqStr := `{"username":"` + username + `", "password": "` + pwd + `", "limit": 10}`
+	reqStr := `{"username":"` + username + `", "password": "` + pwd + `}`
 	req, err := http.NewRequest(echo.POST, fmt.Sprintf("http://localhost:%s/api/v1/auth/register", s.config.Port), strings.NewReader(reqStr))
 	s.NoError(err)
 
@@ -91,7 +91,7 @@ func (s *e2eTestSuite) Test_EndToEnd_Register() {
 	byteBody, err := ioutil.ReadAll(response.Body)
 	s.NoError(err)
 
-	expectedResp := `{"username":"` + strings.ToLower(username) + `","limit":10}`
+	expectedResp := `{"username":"` + strings.ToLower(username) + `"}`
 	var expectedUser = presenter.SignUpResponse{}
 	err = json.Unmarshal([]byte(expectedResp), &expectedUser)
 	s.NoError(err)
@@ -101,6 +101,5 @@ func (s *e2eTestSuite) Test_EndToEnd_Register() {
 	s.NoError(err)
 
 	s.Equal(actualUser.Username, expectedUser.Username)
-	s.Equal(actualUser.Limit, expectedUser.Limit)
 	response.Body.Close()
 }

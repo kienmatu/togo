@@ -39,7 +39,7 @@ func NewAuthUseCase(
 	}
 }
 
-func (a *authUseCase) SignUp(ctx context.Context, username, password string, limit int) (*models.User, error) {
+func (a *authUseCase) SignUp(ctx context.Context, username, password string) (*models.User, error) {
 	fmtusername := strings.ToLower(username)
 	euser, _ := a.userRepo.GetUserByUsername(ctx, fmtusername)
 
@@ -50,7 +50,6 @@ func (a *authUseCase) SignUp(ctx context.Context, username, password string, lim
 		Id:       uuid.New().String(),
 		Username: fmtusername,
 		Password: password,
-		Limit:    limit,
 	}
 	user.HashPassword()
 	err := a.userRepo.CreateUser(ctx, user)

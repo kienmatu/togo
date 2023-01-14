@@ -27,11 +27,11 @@ func (h *authHandler) SignUp() echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusBadRequest)
 		}
 
-		user, err := h.useCase.SignUp(c.Request().Context(), input.Username, input.Password, input.Limit)
+		user, err := h.useCase.SignUp(c.Request().Context(), input.Username, input.Password)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 		}
-		return c.JSON(http.StatusCreated, presenter.SignUpResponse{Id: user.Id, Username: user.Username, Limit: user.Limit})
+		return c.JSON(http.StatusCreated, presenter.SignUpResponse{Id: user.Id, Username: user.Username})
 	}
 }
 
