@@ -9,8 +9,11 @@ import (
 	"syscall"
 	"time"
 
+	_ "dangquang9a/go-location/docs"
+
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
+	echoSwagger "github.com/swaggo/echo-swagger"
 	"gorm.io/gorm"
 )
 
@@ -32,6 +35,8 @@ func (s *Server) Run() error {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
+
+	s.echo.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	go func() {
 		s.logger.Logf(logrus.InfoLevel, "Server is listening on PORT: %s", s.cfg.Port)

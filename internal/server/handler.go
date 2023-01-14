@@ -3,12 +3,12 @@ package server
 import (
 	authRepository "dangquang9a/go-location/internal/auth/repository"
 	authUsecase "dangquang9a/go-location/internal/auth/usecase"
+	locationRepository "dangquang9a/go-location/internal/location/repository"
+	locationUsecase "dangquang9a/go-location/internal/location/usecase"
 	"dangquang9a/go-location/internal/middlewares"
-	todoRepository "dangquang9a/go-location/internal/todos/repository"
-	todoUsecase "dangquang9a/go-location/internal/todos/usecase"
 
 	authHttp "dangquang9a/go-location/internal/auth/delivery/http"
-	todoHttp "dangquang9a/go-location/internal/todos/delivery/http"
+	locHttp "dangquang9a/go-location/internal/location/delivery/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -18,15 +18,15 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 
 	// repos
 	userRepo := authRepository.NewUserRepository(s.db)
-	todoRepo := todoRepository.NewTodoRepository(s.db)
+	locRepo := locationRepository.NewLocRepository(s.db)
 
 	//usecase
 	authUC := authUsecase.NewAuthUseCase(userRepo, s.cfg.HashSalt, []byte(s.cfg.SigningKey), s.cfg.TokenTTL)
-	todoUC := todoUsecase.NewTodoUseCase(todoRepo, userRepo)
+	locUC := locationUsecase.NewLocationUseCase(locRepo, userRepo)
 
 	//handler
 	authHandler := authHttp.NewAuthHandler(authUC)
-	todoHandler := todoHttp.NewTodoHandler(todoUC)
+	locHandler := locHttp.NewLocHandler(locUC)
 
 	//middlewares
 	mw := middlewares.NewMiddlewareManager(authUC)
@@ -38,10 +38,10 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 	v1 := e.Group("/api/v1")
 
 	authGroup := v1.Group("/auth")
-	todoGroup := v1.Group("/todos")
+	locGroup := v1.Group("/location")
 
 	authHttp.MapAuthRoutes(authGroup, authHandler)
-	todoHttp.MapAuthRoutes(todoGroup, todoHandler, mw)
+	locHttp.MapAuthRoutes(locGroup, locHandler, mw)
 
 	return nil
 }

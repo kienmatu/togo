@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"dangquang9a/go-location/internal/auth"
+	"dangquang9a/go-location/internal/auth/presenter"
 	"dangquang9a/go-location/internal/models"
 
 	"github.com/golang-jwt/jwt"
@@ -39,24 +40,27 @@ func NewAuthUseCase(
 	}
 }
 
-func (a *authUseCase) SignUp(ctx context.Context, username, password string) (*models.User, error) {
-	fmtusername := strings.ToLower(username)
+func (a *authUseCase) SignUp(ctx context.Context, user presenter.SignUpInput) (*models.User, error) {
+	fmtusername := strings.ToLower(user.Username)
 	euser, _ := a.userRepo.GetUserByUsername(ctx, fmtusername)
 
 	if euser != nil {
 		return nil, auth.ErrUserExisted
 	}
-	user := &models.User{
-		Id:       uuid.New().String(),
-		Username: fmtusername,
-		Password: password,
+	userModel := &models.User{
+		Id:        uuid.New().String(),
+		Username:  fmtusername,
+		Password:  user.Password,
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Email:     user.Email,
 	}
-	user.HashPassword()
-	err := a.userRepo.CreateUser(ctx, user)
+	userModel.HashPassword()
+	err := a.userRepo.CreateUser(ctx, userModel)
 	if err != nil {
 		return nil, err
 	}
-	return a.userRepo.GetUserByUsername(ctx, username)
+	return a.userRepo.GetUserByUsername(ctx, user.Username)
 }
 
 func (a *authUseCase) SignIn(ctx context.Context, username, password string) (string, error) {
@@ -74,7 +78,7 @@ func (a *authUseCase) SignIn(ctx context.Context, username, password string) (st
 		UserId:   user.Id,
 		StandardClaims: jwt.StandardClaims{
 			IssuedAt:  time.Now().Unix(),
-			Issuer:    "go-todos",
+			Issuer:    "go-location",
 			ExpiresAt: time.Now().Add(a.expireDuration).Unix(),
 		},
 	}

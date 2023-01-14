@@ -10,6 +10,11 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// @title Todo Application
+// @description Location history application
+// @version 1.0
+// @host localhost:8080
+// @BasePath /api/v1
 func main() {
 
 	log.Println("Starting api server")

@@ -12,4 +12,5 @@ type Location struct {
 	Lat       float64 `gorm:"type:decimal(10,8)"`
 	Lng       float64 `gorm:"type:decimal(11,8)"`
 	User      User    `gorm:"foreignKey:CreatedBy"`
+	Note      string
 }

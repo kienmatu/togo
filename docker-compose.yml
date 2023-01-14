@@ -1,8 +1,8 @@
 version: "3"
 services:
   server:
-    image: kien-go-todos
-    container_name: "kien-go-todos"
+    image: go-location
+    container_name: "go-location"
     build: ./
     env_file: .env
     ports:

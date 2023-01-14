@@ -2,8 +2,8 @@ package repository
 
 import (
 	"context"
+	"dangquang9a/go-location/internal/location"
 	"dangquang9a/go-location/internal/models"
-	"dangquang9a/go-location/internal/todos"
 	"database/sql"
 	"regexp"
 	"testing"
@@ -23,7 +23,7 @@ type Suite struct {
 	DB   *gorm.DB
 	mock sqlmock.Sqlmock
 
-	repository todos.TodoRepository
+	repository location.LocationRepository
 }
 
 func TestInit(t *testing.T) {
@@ -51,15 +51,15 @@ func (s *Suite) SetupSuite() {
 
 	require.NoError(s.T(), err)
 
-	s.repository = NewTodoRepository(s.DB)
+	s.repository = NewLocRepository(s.DB)
 }
 
 func (s *Suite) TestGetAllTodo() {
 	s.mock.ExpectQuery(regexp.QuoteMeta(
-		`SELECT * FROM "todos" LIMIT 200`)).
+		`SELECT * FROM "location" LIMIT 200`)).
 		WillReturnRows(sqlmock.NewRows([]string{"id", "content", "created_at", "created_by"}))
 
-	_, err := s.repository.GetAllTodos(context.Background())
+	_, err := s.repository.GetAllLocation(context.Background())
 
 	require.NoError(s.T(), err)
 }
@@ -67,11 +67,11 @@ func (s *Suite) TestGetAllTodo() {
 func (s *Suite) TestGetTodosByUserId() {
 	var id = uuid.New().String()
 	s.mock.ExpectQuery(regexp.QuoteMeta(
-		`SELECT * FROM "todos" WHERE "todos"."created_by" = $1`)).
+		`SELECT * FROM "location" WHERE "location"."created_by" = $1`)).
 		WithArgs(id).
 		WillReturnRows(sqlmock.NewRows([]string{"id", "content", "created_at", "created_by"}))
 
-	_, err := s.repository.GetTodosByUserId(context.Background(), id)
+	_, err := s.repository.GetLocationsByUserID(context.Background(), id)
 	require.NoError(s.T(), err)
 }
 
@@ -87,12 +87,12 @@ func (s *Suite) TestCreateTodo() {
 	s.mock.ExpectBegin()
 
 	s.mock.ExpectExec(regexp.
-		QuoteMeta(`INSERT INTO "todos" ("id","content","created_at","created_by") VALUES ($1,$2,$3,$4)`)).
+		QuoteMeta(`INSERT INTO "location" ("id","content","created_at","created_by") VALUES ($1,$2,$3,$4)`)).
 		WithArgs(user.Id, user.Name, user.CreatedAt, user.CreatedBy).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 
 	s.mock.ExpectCommit()
 
-	err := s.repository.CreateTodo(context.Background(), user)
+	err := s.repository.CreateLocation(context.Background(), user)
 	require.NoError(s.T(), err)
 }

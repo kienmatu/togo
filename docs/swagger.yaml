@@ -1,0 +1,219 @@
+basePath: /api/v1
+definitions:
+  presenter.CreateLocationRequest:
+    properties:
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+      note:
+        type: string
+    type: object
+  presenter.CreateLocationResponse:
+    properties:
+      createdAt:
+        type: string
+      createdBy:
+        type: string
+      id:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+      note:
+        type: string
+    type: object
+  presenter.LogInResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  presenter.LoginInput:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  presenter.SignUpInput:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  presenter.SignUpResponse:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Location history application
+  title: Todo Application
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Verify user credental and provide access token
+      parameters:
+      - description: User credential
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/presenter.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/presenter.LogInResponse'
+        "401":
+          description: Unauthorized
+          schema: {}
+      summary: Login user account
+      tags:
+      - User
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Receive information of new user, check if it is exist in the database
+        and create it
+      parameters:
+      - description: User information
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/presenter.SignUpInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/presenter.SignUpResponse'
+        "401":
+          description: Unauthorized
+          schema: {}
+      summary: Sign up new user
+      tags:
+      - User
+  /location/:
+    get:
+      consumes:
+      - application/json
+      description: Get all location in db
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/presenter.CreateLocationResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema: {}
+      summary: Get all location in db
+      tags:
+      - Location
+    post:
+      consumes:
+      - application/json
+      description: Create new location in database
+      parameters:
+      - description: Location detail
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/presenter.CreateLocationRequest'
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema: {}
+        "422":
+          description: Unprocessable Entity
+          schema: {}
+      summary: Add Location
+      tags:
+      - Location
+  /location/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: Provice current user's location history
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/presenter.CreateLocationResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema: {}
+      summary: Get location of current user
+      tags:
+      - Location
+swagger: "2.0"
