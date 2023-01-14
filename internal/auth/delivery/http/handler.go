@@ -3,9 +3,9 @@ package http
 import (
 	"net/http"
 
-	"kienmatu/go-todos/internal/auth"
-	"kienmatu/go-todos/internal/auth/presenter"
-	"kienmatu/go-todos/utils"
+	"dangquang9a/go-location/internal/auth"
+	"dangquang9a/go-location/internal/auth/presenter"
+	"dangquang9a/go-location/utils"
 
 	"github.com/labstack/echo/v4"
 )
@@ -27,11 +27,11 @@ func (h *authHandler) SignUp() echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusBadRequest)
 		}
 
-		user, err := h.useCase.SignUp(c.Request().Context(), input.Username, input.Password, input.Limit)
+		user, err := h.useCase.SignUp(c.Request().Context(), input.Username, input.Password)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 		}
-		return c.JSON(http.StatusCreated, presenter.SignUpResponse{Id: user.Id, Username: user.Username, Limit: user.Limit})
+		return c.JSON(http.StatusCreated, presenter.SignUpResponse{Id: user.Id, Username: user.Username})
 	}
 }
 

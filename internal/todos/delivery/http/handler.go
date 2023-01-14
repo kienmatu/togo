@@ -1,12 +1,12 @@
 package http
 
 import (
+	"dangquang9a/go-location/internal/auth"
+	"dangquang9a/go-location/internal/models"
+	"dangquang9a/go-location/internal/todos"
+	"dangquang9a/go-location/internal/todos/presenter"
+	"dangquang9a/go-location/utils"
 	"fmt"
-	"kienmatu/go-todos/internal/auth"
-	"kienmatu/go-todos/internal/models"
-	"kienmatu/go-todos/internal/todos"
-	"kienmatu/go-todos/internal/todos/presenter"
-	"kienmatu/go-todos/utils"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -55,7 +55,7 @@ func (th *todoHandler) AddTodo() echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusBadRequest)
 		}
 
-		err := th.todoUC.CreateTodo(c.Request().Context(), fmt.Sprintf("%v", userId), input.Content)
+		err := th.todoUC.CreateTodo(c.Request().Context(), fmt.Sprintf("%v", userId), input.Note)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 		}
@@ -64,7 +64,7 @@ func (th *todoHandler) AddTodo() echo.HandlerFunc {
 	}
 }
 
-func mapTodos(td []*models.Todo) []*presenter.TodoResponse {
+func mapTodos(td []*models.Location) []*presenter.TodoResponse {
 	out := make([]*presenter.TodoResponse, len(td))
 
 	for i, b := range td {
@@ -74,10 +74,10 @@ func mapTodos(td []*models.Todo) []*presenter.TodoResponse {
 	return out
 }
 
-func mapTodo(t *models.Todo) *presenter.TodoResponse {
+func mapTodo(t *models.Location) *presenter.TodoResponse {
 	return &presenter.TodoResponse{
 		Id:        t.Id,
-		Content:   t.Content,
+		Content:   t.Name,
 		CreatedAt: t.CreatedAt,
 		CreatedBy: t.CreatedBy,
 	}

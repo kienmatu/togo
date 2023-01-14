@@ -3,9 +3,9 @@ package main
 import (
 	"log"
 
-	"kienmatu/go-todos/config"
-	"kienmatu/go-todos/db"
-	"kienmatu/go-todos/internal/server"
+	"dangquang9a/go-location/config"
+	"dangquang9a/go-location/db"
+	"dangquang9a/go-location/internal/server"
 
 	"github.com/sirupsen/logrus"
 )

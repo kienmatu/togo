@@ -2,12 +2,12 @@ package todos
 
 import (
 	"context"
-	"kienmatu/go-todos/internal/models"
+	"dangquang9a/go-location/internal/models"
 )
 
 type TodoRepository interface {
-	CreateTodo(ctx context.Context, todo *models.Todo) error
-	GetTodosByUserId(ctx context.Context, userId string) ([]*models.Todo, error)
-	GetAllTodos(ctx context.Context) ([]*models.Todo, error)
+	CreateTodo(ctx context.Context, todo *models.Location) error
+	GetTodosByUserId(ctx context.Context, userId string) ([]*models.Location, error)
+	GetAllTodos(ctx context.Context) ([]*models.Location, error)
 	CountTodo(ctx context.Context, userId string) (int, error)
 }

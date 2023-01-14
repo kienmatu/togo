@@ -2,9 +2,9 @@ package repository
 
 import (
 	"context"
+	"dangquang9a/go-location/internal/models"
+	"dangquang9a/go-location/internal/todos"
 	"database/sql"
-	"kienmatu/go-todos/internal/models"
-	"kienmatu/go-todos/internal/todos"
 	"regexp"
 	"testing"
 	"time"
@@ -77,9 +77,9 @@ func (s *Suite) TestGetTodosByUserId() {
 
 func (s *Suite) TestCreateTodo() {
 
-	user := &models.Todo{
+	user := &models.Location{
 		Id:        uuid.New().String(),
-		Content:   "test",
+		Name:      "test",
 		CreatedAt: time.Now(),
 		CreatedBy: uuid.New().String(),
 	}
@@ -88,7 +88,7 @@ func (s *Suite) TestCreateTodo() {
 
 	s.mock.ExpectExec(regexp.
 		QuoteMeta(`INSERT INTO "todos" ("id","content","created_at","created_by") VALUES ($1,$2,$3,$4)`)).
-		WithArgs(user.Id, user.Content, user.CreatedAt, user.CreatedBy).
+		WithArgs(user.Id, user.Name, user.CreatedAt, user.CreatedBy).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 
 	s.mock.ExpectCommit()

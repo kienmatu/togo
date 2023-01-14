@@ -2,11 +2,11 @@ package todos
 
 import (
 	"context"
-	"kienmatu/go-todos/internal/models"
+	"dangquang9a/go-location/internal/models"
 )
 
 type UseCase interface {
 	CreateTodo(ctx context.Context, userId string, content string) error
-	GetTodosByUserId(ctx context.Context, userId string) ([]*models.Todo, error)
-	GetAllTodos(ctx context.Context) ([]*models.Todo, error)
+	GetTodosByUserId(ctx context.Context, userId string) ([]*models.Location, error)
+	GetAllTodos(ctx context.Context) ([]*models.Location, error)
 }

@@ -1,7 +1,7 @@
 package db
 
 import (
-	config "kienmatu/go-todos/config"
+	config "dangquang9a/go-location/config"
 
 	mgo "gopkg.in/mgo.v2"
 )

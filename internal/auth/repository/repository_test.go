@@ -2,9 +2,9 @@ package repository
 
 import (
 	"context"
+	"dangquang9a/go-location/internal/auth"
+	"dangquang9a/go-location/internal/models"
 	"database/sql"
-	"kienmatu/go-todos/internal/auth"
-	"kienmatu/go-todos/internal/models"
 	"regexp"
 	"testing"
 
@@ -62,17 +62,16 @@ func (s *Suite) TestGetUserByUsername() {
 		id       = uuid.New().String()
 		username = "test"
 		password = "testpass"
-		limit    = 100
 	)
 	s.mock.ExpectQuery(regexp.QuoteMeta(
 		`SELECT * FROM "users" WHERE "users"."username" = $1 ORDER BY "users"."id" LIMIT 1`)).
 		WithArgs(username).
-		WillReturnRows(sqlmock.NewRows([]string{"id", "username", "password", "limit"}).
-			AddRow(id, username, password, limit))
+		WillReturnRows(sqlmock.NewRows([]string{"id", "username", "password"}).
+			AddRow(id, username, password))
 
 	res, err := s.repository.GetUserByUsername(context.Background(), username)
 	require.NoError(s.T(), err)
-	require.Nil(s.T(), deep.Equal(&models.User{Id: id, Username: username, Password: password, Limit: limit}, res))
+	require.Nil(s.T(), deep.Equal(&models.User{Id: id, Username: username, Password: password}, res))
 }
 
 func (s *Suite) TestGetUserByUserId() {
@@ -80,17 +79,16 @@ func (s *Suite) TestGetUserByUserId() {
 		id       = uuid.New().String()
 		username = "test"
 		password = "testpass"
-		limit    = 100
 	)
 	s.mock.ExpectQuery(regexp.QuoteMeta(
 		`SELECT * FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" LIMIT 1`)).
 		WithArgs(id).
-		WillReturnRows(sqlmock.NewRows([]string{"id", "username", "password", "limit"}).
-			AddRow(id, username, password, limit))
+		WillReturnRows(sqlmock.NewRows([]string{"id", "username", "password"}).
+			AddRow(id, username, password))
 
 	res, err := s.repository.GetUserById(context.Background(), id)
 	require.NoError(s.T(), err)
-	require.Nil(s.T(), deep.Equal(&models.User{Id: id, Username: username, Password: password, Limit: limit}, res))
+	require.Nil(s.T(), deep.Equal(&models.User{Id: id, Username: username, Password: password}, res))
 }
 
 func (s *Suite) TestCreateUser() {
@@ -98,25 +96,22 @@ func (s *Suite) TestCreateUser() {
 		id       = uuid.New().String()
 		username = "test"
 		password = "testpass"
-		limit    = 100
 	)
 	user := &models.User{
 		Id:       id,
 		Username: username,
 		Password: password,
-		Limit:    limit,
 	}
 
 	s.mock.ExpectBegin()
 
 	s.mock.ExpectExec(regexp.
-		QuoteMeta(`INSERT INTO "users" ("id","username","password","limit") VALUES ($1,$2,$3,$4)`)).
-		WithArgs(id, username, password, limit).
+		QuoteMeta(`INSERT INTO "users" ("id","username","password") VALUES ($1,$2,$3)`)).
+		WithArgs(id, username, password).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 
 	s.mock.ExpectCommit()
 
 	err := s.repository.CreateUser(context.Background(), user)
 	require.NoError(s.T(), err)
-	// require.Nil(s.T(), deep.Equal(&models.User{Id: id, Username: username, Password: password, Limit: limit}, res))
 }
